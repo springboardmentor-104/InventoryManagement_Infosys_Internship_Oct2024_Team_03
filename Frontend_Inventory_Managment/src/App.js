@@ -12,6 +12,7 @@ import DashBoard from './AdminPages/DashBoard';
 import Product from './AdminPages/Product';
 import Order from './AdminPages/Order';
 import Stock from './AdminPages/Stock';
+import Restock from './AdminPages/Restock';
 import Sales from './AdminPages/Sales';
 import ProductPage from './CustomerPages/ProductPage';
 import HomePage from './CustomerPages/HomePage';
@@ -45,6 +46,7 @@ const App = () => {
           <Route path="sales" element={<Sales />} />
           <Route path="addproduct" element={<AddProduct/>}/> 
           <Route path="updateproduct/:productId" element={<UpdateProduct />} /> {/* New route for updating products */}
+          <Route path="restock/:productId" element={<Restock />} />
         </Route>
         
         {/*customer routes */}

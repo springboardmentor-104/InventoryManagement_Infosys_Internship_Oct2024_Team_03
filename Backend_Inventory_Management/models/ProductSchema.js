@@ -17,13 +17,13 @@ const productSchema = new mongoose.Schema({
         type: String,
          required: true
          },
-    quantity:{
+    quantity: {
         type: Number,
-        required:true,
+        required: true,
     },
-    description:{
-        type:String,
-        require:true,
+    description: {
+        type: String,
+        required: true,
     },
     imageUrl: { 
         type: String

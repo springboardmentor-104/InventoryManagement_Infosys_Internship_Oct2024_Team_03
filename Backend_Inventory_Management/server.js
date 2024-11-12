@@ -24,12 +24,10 @@ app.use('/user', userRoutes);
 app.use('/admin', productRoutes); // Add product routes for admin portal
 app.use('/', productRoutes);
 
-
 // Sample API route for frontend
 app.get('/api/message', (req, res) => {
   res.json({ message: 'Hello from the backend!' });
 });
-
 
 // Start the server
 app.listen(port, () => {

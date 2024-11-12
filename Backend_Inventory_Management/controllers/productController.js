@@ -1,16 +1,11 @@
-// controllers/productController.js
-const Product = require('../models/ProductSchema'); // Import the Product model
+const Product = require('../models/ProductSchema');
 
 // Controller function to add a new product
 exports.addProduct = async (req, res) => {
     try {
-        // Extract product details from the request body
-        const { name, productId, price, category, quantity,description } = req.body;
-
-        // Check if an image file was uploaded and set its path
+        const { name, productId, price, category, quantity, description } = req.body;
         const imageUrl = req.file ? `http://localhost:3000/uploads/${req.file.filename}` : '';
 
-        // Create a new product document
         const newProduct = new Product({
             name,
             productId,
@@ -21,34 +16,32 @@ exports.addProduct = async (req, res) => {
             imageUrl,
         });
 
-        // Save the new product to the database
         await newProduct.save();
         res.status(201).json({ message: 'Product added successfully', product: newProduct });
     } catch (error) {
-        // Handle errors, if any
         res.status(500).json({ message: 'Error adding product', error: error.message });
     }
 };
 
-// Controller function to get products
+// Controller function to get all products
 exports.getProducts = async (req, res) => {
     try {
-        const products = await Product.find(); // Fetch all products from the database
-        res.status(200).json(products); // Send products as a JSON response
+        const products = await Product.find();
+        res.status(200).json(products);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching products', error: error.message });
     }
 };
-//controller for finding singleProduct
+
+// Controller function to get a single product
 exports.singleProduct = async (req, res) => {
-    const { id } = req.params; // Extract product ID from URL params
-    console.log(id);
+    const { id } = req.params;
     try {
-        const product = await Product.findById(id); // Find the product by ID
+        const product = await Product.findById(id);
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
         }
-        res.status(200).json(product); // Send the product data as JSON
+        res.status(200).json(product);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching product', error: error.message });
     }
@@ -56,9 +49,9 @@ exports.singleProduct = async (req, res) => {
 
 // Controller function to remove a product
 exports.removeProduct = async (req, res) => {
-    const { id } = req.body; // Extract product ID from the request body
+    const { id } = req.body;
     try {
-        const deletedProduct = await Product.findByIdAndDelete(id); // Delete the product from the database
+        const deletedProduct = await Product.findByIdAndDelete(id);
         if (!deletedProduct) {
             return res.status(404).json({ message: 'Product not found' });
         }
@@ -68,16 +61,16 @@ exports.removeProduct = async (req, res) => {
     }
 };
 
-// Controller function to update a product
+// Controller function to update a product's details
 exports.updateProduct = async (req, res) => {
-    const { name, productId, price, category, quantity, description} = req.body;
+    const { name, productId, price, category, quantity, description } = req.body;
     const imageUrl = req.file ? `http://localhost:3000/uploads/${req.file.filename}` : '';
 
     try {
         const updatedProduct = await Product.findByIdAndUpdate(
-            req.params.id, // Use the ID from the URL
-            { name, productId, price, category, quantity,description ,imageUrl },
-            { new: true } // Return the updated document
+            req.params.id,
+            { name, productId, price, category, quantity, description, imageUrl },
+            { new: true }
         );
 
         if (!updatedProduct) {
@@ -87,5 +80,31 @@ exports.updateProduct = async (req, res) => {
         res.status(200).json({ message: 'Product updated successfully', product: updatedProduct });
     } catch (error) {
         res.status(500).json({ message: 'Error updating product', error: error.message });
+    }
+};
+
+// Controller function to restock a product (update quantity only)
+exports.restockProduct = async (req, res) => {
+    const { id } = req.params;
+    const { additionalQuantity } = req.body;
+
+    if (!additionalQuantity || isNaN(additionalQuantity) || additionalQuantity <= 0) {
+        return res.status(400).json({ message: 'Invalid quantity to restock' });
+    }
+
+    try {
+        const updatedProduct = await Product.findByIdAndUpdate(
+            id,
+            { $inc: { quantity: additionalQuantity } },
+            { new: true }
+        );
+
+        if (!updatedProduct) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        res.status(200).json({ message: 'Product restocked successfully', product: updatedProduct });
+    } catch (error) {
+        res.status(500).json({ message: 'Error restocking product', error: error.message });
     }
 };
