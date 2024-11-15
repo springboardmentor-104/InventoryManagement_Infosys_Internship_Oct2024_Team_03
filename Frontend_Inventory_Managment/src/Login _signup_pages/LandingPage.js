@@ -1,101 +1,124 @@
-import React from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import '../Login_signup_css/LandingPage.css'
-import logo from '../images/Picsart_24-10-12_14-02-47-432__1_-removebg-preview.png';
-import heroImage from '../images/Hero Section@2x.png';
-import riskManagementImg from '../images/WhatsApp Image 2024-10-19 at 10.42.12 PM.jpeg';
-import customizedSolutionsImg from '../images/WhatsApp Image 2024-10-19 at 10.42.55 PM.jpeg';
-import cardsfirstimg from '../images/pana.jpg';
-import footerleft from '../images/WhatsApp Image 2024-10-19 at 10.43.44 PM.jpeg';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import logo from "../images/image2.png";
+import top from "../images/Container 4.png";
+import rightimg from "../images/Image 84.png";
+import leftimg from "../images/Image 85.png";
+import footerimg from "../images/Container 6.png";
+import '../Login_signup_css/LandingPage.css';
 
 const LandingPage = () => {
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // Track menu state
+  const [isHamburgerOpen, setIsHamburgerOpen] = useState(false); // Track hamburger state
 
   const handleSignUpClick = () => {
-    navigate('/signup'); // Navigate to the sign-up page
+    navigate("/signup");
   };
-  const handlelogin =()=>{
-    navigate('/login');
-  }
+
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen); // Toggle menu open state
+    setIsHamburgerOpen(!isHamburgerOpen); // Toggle hamburger icon state for animation
+  };
 
   return (
-    <div className="landing-page">
+    <div className="landing-page-container">
       {/* Navbar Section */}
-      <nav className="navbar">
-        <div className="logo">
-          <img src={logo} className="logo-img" alt="Logo" />
+      <nav className="landing-navbar">
+        <div className="navbar-logo-container">
+          <img src={logo} className="navbar-logo-image" alt="Logo" />
+          <h1 className="navbar-title">InventoryPro</h1>
         </div>
-        <ul className="nav-links">
-          <li><a href="#features">Features</a></li>
-          <li><a href="#community">Community</a></li>
-          <li><a href="#blog">Blog</a></li>
-          <li><a href="#pricing">Pricing</a></li>
+
+        {/* Desktop Navbar Links */}
+        <ul className={`navbar-links ${isMenuOpen ? "navbar-links-open" : ""}`}>
+          <li><a href="#features" onClick={toggleMenu}>Features</a></li>
+          <li><a href="#resources" onClick={toggleMenu}>Resources</a></li>
+          <li><a href="#about" onClick={toggleMenu}>About Us</a></li>
+          <li><a href="#contact" onClick={toggleMenu}>Contact Us</a></li>
         </ul>
-        <div className="auth-buttons">
-          <button className="login-btn" onClick={handlelogin}>Login</button>
-          <button className="signup-btn" onClick={handleSignUpClick}>Sign Up</button> {/* Handle sign up click */}
+
+        {/* Auth Buttons */}
+        <div className="navbar-auth-buttons">
+          <button className="navbar-login-button" onClick={handleLogin}>Login</button>
+          <button className="navbar-signup-button" onClick={handleSignUpClick}>Sign Up</button>
+        </div>
+
+        {/* Hamburger Menu Icon for Mobile */}
+        <div
+          className={`hamburger-menu ${isHamburgerOpen ? "open" : ""}`} // Toggle 'open' class for animation
+          onClick={toggleMenu}
+        >
+          {/* Hamburger Icon Lines */}
+          <div className={`hamburger-line ${isHamburgerOpen ? "line1" : ""}`}></div>
+          <div className={`hamburger-line ${isHamburgerOpen ? "line2" : ""}`}></div>
+          <div className={`hamburger-line ${isHamburgerOpen ? "line3" : ""}`}></div>
         </div>
       </nav>
 
+      {/* Mobile Menu Overlay */}
+      {isMenuOpen && (
+        <div className="mobile-menu">
+          <span className="mobile-menu-close" onClick={toggleMenu}>
+            &times;
+          </span>
+          <ul className="navbar-links">
+            <li><a href="#features" onClick={toggleMenu}>Features</a></li>
+            <li><a href="#resources" onClick={toggleMenu}>Resources</a></li>
+            <li><a href="#about" onClick={toggleMenu}>About Us</a></li>
+            <li><a href="#contact" onClick={toggleMenu}>Contact Us</a></li>
+          </ul>
+          <div className="navbar-auth-buttons">
+            <button className="navbar-login-button" onClick={() => { handleLogin(); toggleMenu(); }}>Login</button>
+            <button className="navbar-signup-button" onClick={() => { handleSignUpClick(); toggleMenu(); }}>Sign Up</button>
+          </div>
+        </div>
+      )}
+
       {/* Hero Section */}
-      <header className="hero-section">
-        <div className="hero-image">
-          <img src={heroImage} alt="Hero Image" className="hero-img-placeholder" />
+      <header className="landing-hero-section">
+        <div className="hero-image-container">
+          <img src={top} alt="Hero Image" className="hero-image" />
+          <button className="hero-get-started-button" onClick={handleSignUpClick}>
+            Get Started
+          </button>
+          <div className="hero-description">
+            <p className="hero-description-text">
+              "Welcome to our app, where we strive to enhance your productivity and streamline your daily tasks. Discover features tailored to meet your needs and help you achieve your goals efficiently."
+            </p>
+          </div>
         </div>
       </header>
 
-      {/* Cards Section */}
-      <div className="cards-section">
-        <img src={cardsfirstimg} className="firstcard" alt="First Card" />
-        <div className="card_new">
-          <div className="card-image">
-            <img src={riskManagementImg} alt="Risk Management" className="card-img-placeholder" />
-          </div>
-          <h3>Risk Management</h3>
-          <p>
-            We expertly handle and proactively mitigate financial risks, ensuring
-            the safeguard of assets and overall stability.
+      {/* Real-Time Tracking Section */}
+      <div className="landing-section tracking-section">
+        <div className="tracking-text-container">
+          <h2 className="tracking-title">Real-Time Tracking</h2>
+          <p className="tracking-description">
+            Monitor your inventory levels in real-time, ensuring you never run out of stock.
           </p>
         </div>
-        <div className="card_new">
-          <div className="card-image">
-            <img src={customizedSolutionsImg} alt="Customized Solutions" className="card-img-placeholder" />
-          </div>
-          <h3>Customized Solutions</h3>
-          <p>
-            Receive and benefit from financial solutions tailored to your unique
-            financial challenges and aspirations.
+        <div className="tracking-image-container">
+          <img src={rightimg} alt="Real-Time Tracking" className="tracking-image" />
+        </div>
+      </div>
+
+      {/* Automated Reports Section */}
+      <div className="landing-section reports-section reverse">
+        <div className="reports-image-container">
+          <img src={leftimg} alt="Automated Reports" className="reports-image" />
+        </div>
+        <div className="reports-text-container">
+          <h2 className="reports-title">Automated Reports</h2>
+          <p className="reports-description">
+            Generate automated reports to gain valuable insights into your inventory.
           </p>
         </div>
       </div>
-      
-      {/* Footer Section */}
-      <footer>
-        <div className="footer-content">
-          <div className="footer-left-image">
-            <img src={footerleft} alt="Footer Image" />
-          </div>
-          <div className="social-media">
-            <h3>Follow Us</h3>
-            <p>Stay connected through our social media channels.</p>
-            <a href="#facebook">Facebook</a> | <a href="#twitter">Twitter</a> | <a href="#instagram">Instagram</a>
-          </div>
-          <div className="explore">
-            <h3>Explore More</h3>
-            <ul>
-              <li><a href="#about">About Us</a></li>
-              <li><a href="#blog">Blog</a></li>
-              <li><a href="#sitemap">Site map</a></li>
-              <li><a href="#privacy">Privacy</a></li>
-            </ul>
-          </div>
-          <div className="contact">
-            <h3>Contact Details</h3>
-            <p>contact@briofin.com</p>
-            <p>+1 (555) 123-4567</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };

@@ -1,4 +1,3 @@
-// ProductPage.js
 import React, { useContext } from 'react';
 import { CustomerContext } from '../ContextApi/CustomerContext'; // Adjust the path as needed
 import '../AdminPages_css/Product.css';
@@ -32,14 +31,14 @@ const Product = () => {
       <table>
         <thead>
           <tr>
-            <th>S.No</th> {/* Serial Number Column */}
+            <th>S.No</th>
             <th>Product Id</th>
             <th>Name</th>
             <th>Category</th>
             <th>Price</th>
             <th>Stock Quantity</th>
             <th>Image</th>
-            <th>Actions</th> {/* New Actions Column */}
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -52,21 +51,24 @@ const Product = () => {
               <td>₹{product.price}</td>
               <td>{product.quantity}</td>
               <td>
-                {product.imageUrl ? (
-                  <img src={product.imageUrl} alt={product.name} style={{ width: '50px', height: '50px' }} />
-                ) : (
-                  'No Image'
-                )}
+                {product.imageUrls && product.imageUrls.length > 0 ? (
+                  <img className='img-pro'
+                    src={product.imageUrls[0]} // Display the first image in the array
+                    alt={product.name}
+                    style={{ width: '50px', height: '50px' }}
+                  />
+                ) : 'No Image'}
               </td>
               <td>
                 <button
-                  onClick={() => handleUpdate(product._id)} // Call handleUpdate with the product ID
+                  onClick={() => handleUpdate(product._id)}
                   className="update-btn"
                 >
                   Update
                 </button>
-                <button style={{backgroundColor:"red"}}
-                  onClick={() => removeProduct(product._id)} // Call removeProduct with the product ID
+                <button
+                  style={{ backgroundColor: "red" }}
+                  onClick={() => removeProduct(product._id)}
                   className="remove-btn"
                 >
                   Remove
