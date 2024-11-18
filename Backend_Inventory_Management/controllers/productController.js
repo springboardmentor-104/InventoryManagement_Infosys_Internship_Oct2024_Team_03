@@ -3,8 +3,12 @@ const Product = require('../models/ProductSchema');
 // Controller function to add a new product
 exports.addProduct = async (req, res) => {
     try {
-        const { name, productId, price, category, quantity, description } = req.body;
-        const imageUrl = req.file ? `http://localhost:3000/uploads/${req.file.filename}` : '';
+        
+
+        // Create an array of image URLs from the uploaded files
+        const imageUrls = req.files.map(file => `http://localhost:3000/uploads/${file.filename}`);
+
+        // Create a new product document with multiple images
 
         const newProduct = new Product({
             name,
@@ -13,7 +17,7 @@ exports.addProduct = async (req, res) => {
             category,
             quantity,
             description,
-            imageUrl,
+            imageUrls, // Store the array of image URLs
         });
 
         await newProduct.save();
@@ -63,14 +67,14 @@ exports.removeProduct = async (req, res) => {
 
 // Controller function to update a product's details
 exports.updateProduct = async (req, res) => {
-    const { name, productId, price, category, quantity, description } = req.body;
-    const imageUrl = req.file ? `http://localhost:3000/uploads/${req.file.filename}` : '';
+    const { name, productId, price, category, quantity, description} = req.body;
+    const imageUrls = req.files.map(file => `http://localhost:3000/uploads/${file.filename}`);
 
     try {
         const updatedProduct = await Product.findByIdAndUpdate(
-            req.params.id,
-            { name, productId, price, category, quantity, description, imageUrl },
-            { new: true }
+            req.params.id, // Use the ID from the URL
+            { name, productId, price, category, quantity,description ,imageUrls },
+            { new: true } // Return the updated document
         );
 
         if (!updatedProduct) {
