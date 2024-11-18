@@ -17,7 +17,7 @@ async function sendOTP(email, otp) {
     let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'mohitsinghx4@gmail.com', // Replace with your email
+            user: 'kanishag66@gmail.com', // Replace with your email
             pass: process.env.PASS,         // Use password from .env
         },
     });
