@@ -45,7 +45,7 @@ export const CustomerProvider = ({ children }) => {
       // Remove the deleted product from state
       setProducts(products.filter(product => product._id !== productId));
     } catch (err) {
-      setError(err.message); // Handle any errors during product removal
+      setError(err.message); 
     }
   };
 
@@ -91,20 +91,13 @@ export const CustomerProvider = ({ children }) => {
       // Update the state with the restocked product
       setProducts(products.map(product => (product._id === productId ? data.product : product)));
     } catch (err) {
-      setError(err.message); // Handle any errors during restocking
+      setError(err.message);
     }
   };
 
   return (
-    <CustomerContext.Provider value={{
-      products, // The list of products
-      loading,  // Loading state
-      error,    // Error message if any
-      removeProduct,  // Function to remove product
-      updateProduct,  // Function to update product
-      restockProduct, // Function to restock product
-    }}>
-      {children} {/* Render children components inside the context provider */}
+    <CustomerContext.Provider value={{ products, loading, error, removeProduct, updateProduct, restockProduct }}>
+      {children}
     </CustomerContext.Provider>
   );
 };

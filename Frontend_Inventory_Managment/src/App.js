@@ -46,7 +46,7 @@ const App = () => {
           <Route path="sales" element={<Sales />} />
           <Route path="addproduct" element={<AddProduct/>}/> 
           <Route path="updateproduct/:productId" element={<UpdateProduct />} /> {/* New route for updating products */}
-          <Route path="restock/:productId" element={<Restock />} />
+          <Route path="restock/:productId" element={<Restock />} /> {/* New route for updating stock quantity */}
         </Route>
         
         {/*customer routes */}

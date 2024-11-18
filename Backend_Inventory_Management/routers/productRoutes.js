@@ -1,12 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const { 
-    addProduct,
-    getProducts,
-    removeProduct,
-    updateProduct,
-    singleProduct,
-    restockProduct 
+const { addProduct,getProducts,removeProduct,updateProduct,singleProduct,restockProduct 
 } = require('../controllers/productController');
 
 const router = express.Router();
