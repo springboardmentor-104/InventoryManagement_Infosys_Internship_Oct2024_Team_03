@@ -4,10 +4,8 @@ const connectDB = require('./database/db');
 const userRoutes = require('./routers/userRoutes');
 const productRoutes = require('./routers/productRoutes');
 const orderRoutes = require('./routers/orderRoutes');
+const countRoutes = require('./routers/countRoutes');
 const cors = require('cors');
-const User = require('./models/User'); // Assuming you have a User model
-const Product = require('./models/ProductSchema'); // Assuming you have a Product model
-const Order = require('./models/OrderSchema'); // Assuming you have an Order model
 require('dotenv').config();
 
 const app = express();
@@ -28,6 +26,8 @@ app.use('/user', userRoutes);
 app.use('/', orderRoutes);
 app.use('/admin', productRoutes); // Add product routes for admin portal
 app.use('/', productRoutes);
+// Use the count routes
+app.use('/', countRoutes);
 
 // Sample API route for frontend
 app.get('/api/message', (req, res) => {
