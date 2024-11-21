@@ -1,106 +1,72 @@
-/* Responsive Profile Card */
-.profile-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Progress bar wrapper */
+.progress-bar-wrapper {
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Flex container for the progress bar */
+.progress-bar {
+    display: flex;
+    justify-content: space-between; /* Ensure equal spacing between steps */
+    align-items: center; /* Center vertically */
     margin-bottom: 20px;
-    width: 100%;
-    max-width: 500px; /* Max width for card */
-    margin-left: auto;
-    margin-right: auto;
 }
 
-.profile-card p {
-    margin: 8px 0;
-    font-size: 16px;
+/* Each step in the progress bar */
+.progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the content in each step */
+    text-align: center;
+    width: 20%; /* Make each step take up equal width */
 }
 
-.profile-card strong {
-    font-weight: 600;
-}
-
-/* Centering the buttons and making them responsive */
-.update-button, .save-button, .order-status-button {
-    padding: 10px 1px;
-    font-size: 14px;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 10px;
-    width: max-content;
-    display: block;  /* Ensures button takes the maximum width */
-    margin-left: auto;
-    margin-right: auto; /* Center buttons */
-}
-
-/* Hover effects */
-.update-button:hover, .save-button:hover, .order-status-button:hover {
-    background-color: #0056b3;
-}
-
-/* Modal content adjustments */
-.profile-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+/* Circle styling for progress steps */
+.progress-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ccc; /* Default color for uncompleted steps */
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10;
+    font-size: 14px;
+    color: white;
+    margin-bottom: 5px;
 }
 
-.modal-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 400px; /* Max width for modal */
-    margin-left: auto;
-    margin-right: auto;
+/* Label under each circle */
+.progress-label {
+    font-size: 14px;
+    color: #333;
 }
 
-.modal-content h2 {
-    margin-bottom: 16px;
+
+
+.current .progress-circle {
+    background-color: #007bff; /* Blue for the current step */
 }
 
-.modal-content label {
-    display: block;
-    margin-bottom: 8px;
-}
 
-.modal-content input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 12px;
-}
-
-.modal-content button {
-    margin-right: 8px;
-    padding: 8px 12px;
-    cursor: pointer;
-}
-
-/* Responsive adjustments for mobile screens */
+/* Responsive adjustments */
 @media (max-width: 600px) {
-    .profile-card {
-        padding: 12px;
+    .progress-bar {
+        flex-direction: column; /* Stack progress steps vertically on small screens */
+        align-items: flex-start; /* Align steps to the left */
     }
 
-    .update-button, .save-button, .order-status-button {
-        width: 100%;  /* Full width on small screens */
-        margin-left: 0;
-        margin-right: 0;
+    .progress-step {
+        width: 100%; /* Make steps take up full width */
+        margin-bottom: 10px; /* Add some space between steps */
     }
 
-    .modal-content {
-        width: 90%; /* Adjust modal width for smaller screens */
+    .progress-circle {
+        width: 40px; /* Increase circle size on small screens */
+        height: 40px;
+        font-size: 16px; /* Increase font size for smaller screens */
+    }
+
+    .progress-label {
+        font-size: 16px; /* Increase label size for smaller screens */
     }
 }
