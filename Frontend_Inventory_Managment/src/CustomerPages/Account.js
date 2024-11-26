@@ -7,14 +7,14 @@ const Account = () => {
     const { orderData } = useOrder();
     const { userData, setUserData } = useUser(); // Destructure userData and setUserData from context
     const [showOrderDetails, setShowOrderDetails] = useState(false);
-
+      console.log(orderData)
     // Profile State Management
     const [isEditingProfile, setIsEditingProfile] = useState(false);
     const [updatedProfile, setUpdatedProfile] = useState({
         name: userData?.name || "", // Populate with current user data if available
         email: userData?.email || "",
     });
-
+    console.log(typeof orderd)
     const handleOrderStatusClick = () => {
         if (orderData) {
             setShowOrderDetails(true);
@@ -93,7 +93,7 @@ const Account = () => {
             )}
 
             {/* Order Status Button */}
-            <button onClick={handleOrderStatusClick}>Order Status</button>
+            <button className="order-status-button" onClick={handleOrderStatusClick}>Order Status</button>
 
             {/* Order Details Section */}
             {showOrderDetails && orderData && (

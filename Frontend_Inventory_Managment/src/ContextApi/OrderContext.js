@@ -17,6 +17,7 @@ export const OrderProvider = ({ children }) => {
         }
     }, []);
 
+    // Function to store order data
     const storeOrder = (order) => {
         setOrderData(order);
 
@@ -28,8 +29,27 @@ export const OrderProvider = ({ children }) => {
         }
     };
 
+    // Function to fetch updated order data (simulating server fetch)
+    const fetchOrderData = async () => {
+        try {
+            // Simulate an API call to get the latest order data
+            const response = await fetch("/api/orders/latest"); // Update the endpoint as needed
+            if (response.ok) {
+                const latestOrder = await response.json();
+                setOrderData(latestOrder);
+
+                // Save to localStorage for persistence
+                localStorage.setItem("orderData", JSON.stringify(latestOrder));
+            } else {
+                console.error("Failed to fetch order data");
+            }
+        } catch (error) {
+            console.error("Error fetching order data:", error);
+        }
+    };
+
     return (
-        <OrderContext.Provider value={{ orderData, storeOrder }}>
+        <OrderContext.Provider value={{ orderData, storeOrder, fetchOrderData }}>
             {children}
         </OrderContext.Provider>
     );

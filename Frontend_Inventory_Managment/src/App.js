@@ -67,12 +67,12 @@ const App = () => {
 
                   {/* customer routes */}
 
-                  <Route path="orderform" element={<OrderForm />} />
                   <Route path="/customer/:userId/*" element={<Customer />}>
                     <Route path="home" element={<HomePage />} />
                     <Route path="product" element={<ProductPage />} />
                     <Route path="account" element={<Account />} />
                     <Route path="cart" element={<Cart />} />
+                    <Route path="orderform" element={<OrderForm />} />
                     <Route
                       path="singleproductcart"
                       element={<SingleProductCart />}

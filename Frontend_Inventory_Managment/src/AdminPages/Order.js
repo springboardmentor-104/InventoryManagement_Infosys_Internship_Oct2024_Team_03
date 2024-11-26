@@ -1,9 +1,9 @@
-import React from "react";
-import { useOrder } from "../ContextApi/OrderContext"; // Importing the OrderContext
-import "../AdminPages_css/Order.css"; // Updated CSS for admin
+import React, { useState, useEffect } from "react";
+import { useOrder } from "../ContextApi/OrderContext";
+import "../AdminPages_css/Order.css";
 
 const Order = () => {
-    const { orderData } = useOrder();
+    const { orderData, storeOrder } = useOrder();
 
     const statusStages = [
         "Order Placed",
@@ -11,10 +11,29 @@ const Order = () => {
         "Out for Delivery",
         "Delivered",
     ];
-    const getStatusIndex = (status) => statusStages.indexOf(status);
+
+    const [currentStatus, setCurrentStatus] = useState("Order Placed");
+
+    // Synchronize `currentStatus` with the `orderData` status
+    useEffect(() => {
+        if (orderData?.status) {
+            setCurrentStatus(orderData.status);
+        }
+    }, [orderData]);
+
+    const handleStatusChange = (event) => {
+        const newStatus = event.target.value;
+        setCurrentStatus(newStatus);
+
+        // Update the order status in the OrderContext
+        if (orderData) {
+            const updatedOrder = { ...orderData, status: newStatus };
+            storeOrder(updatedOrder);
+        }
+    };
 
     if (!orderData) {
-        return <p>No orders available.</p>;
+        return <p>Loading order details...</p>;
     }
 
     return (
@@ -47,11 +66,23 @@ const Order = () => {
                                 : "N/A"}
                         </td>
                         <td>{orderData.phoneNumber || "N/A"}</td>
-                        <td>{orderData.status || "N/A"}</td>
+                        <td>
+                            <select
+                                value={currentStatus}
+                                onChange={handleStatusChange}
+                                className="status-dropdown"
+                            >
+                                {statusStages.map((stage) => (
+                                    <option key={stage} value={stage}>
+                                        {stage}
+                                    </option>
+                                ))}
+                            </select>
+                        </td>
                         <td>
                             <div className="progress-bar">
                                 {statusStages.map((stage, index) => {
-                                    const currentIndex = getStatusIndex(orderData.status);
+                                    const currentIndex = statusStages.indexOf(currentStatus);
                                     const stepClass =
                                         index < currentIndex
                                             ? "completed"
@@ -60,9 +91,18 @@ const Order = () => {
                                             : "upcoming";
 
                                     return (
-                                        <div key={stage} className={`progress-step ${stepClass}`}>
-                                            <div className="progress-circle">{index + 1}</div>
-                                            <span className="progress-label">{stage}</span>
+                                        <div
+                                            key={stage}
+                                            className={`progress-step ${stepClass} progress-step-${index}`}
+                                        >
+                                            <div className={`progress-circle progress-circle-${index}`}>
+                                                {index + 1}
+                                            </div>
+                                            <span
+                                                className={`progress-label progress-label-${index}`}
+                                            >
+                                                {stage}
+                                            </span>
                                         </div>
                                     );
                                 })}
