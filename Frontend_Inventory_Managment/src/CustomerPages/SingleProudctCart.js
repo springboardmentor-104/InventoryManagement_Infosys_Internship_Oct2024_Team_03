@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../CustomerPages_css/SingleProductCart.scss';
-
+import { useUser } from '../Login _signup_pages/UserContext';
 
 const SingleProductCart = () => {
     const location = useLocation();
     const navigate = useNavigate();
-
-    const { name = '', price = 0, orderQuantity = 1, imageUrls = [] } = location.state || {}; // Extract values safely
-
+    const { userData } = useUser(); 
+    const { name = '', price = 0, orderQuantity = 1, imageUrls = [], productId } = location.state || {}; // Extract values safely
     const totalPrice = price * orderQuantity;
 
     // Image carousel logic
@@ -25,11 +24,12 @@ const SingleProductCart = () => {
 
     // Navigate to the OrderForm page on checkout
     const handleCheckout = () => {
-        navigate('/orderform', {
+        navigate(`/customer/${userData.id}/orderform`, {
             state: {
                 name,
                 price,
                 orderQuantity,
+                productId,
                 totalPrice,
                 imageUrls
             }
